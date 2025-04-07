@@ -55,6 +55,7 @@ return [
     'byod_help'             => 'This device is owned by the user',
     'bystatus'              => 'by Status',
     'cancel'  				=> 'Cancel',
+    'customer'  				=> 'Customer',
     'categories'			=> 'Categories',
     'category'				=> 'Category',
     'change' 		        => 'In/Out',

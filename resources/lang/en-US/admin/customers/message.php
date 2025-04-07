@@ -4,7 +4,7 @@ return [
 
     'undeployable' 		 => '<strong>Warning: </strong> This customer has been marked as currently undeployable. If this status has changed, please update the customer status.',
     'does_not_exist' 	 => 'Customer does not exist.',
-    'does_not_exist_var' => 'Customer with tag :Customer_tag not found.',
+    'does_not_exist_var' => 'Customer with tag :customer_tag not found.',
     'no_tag' 	         => 'No Customer tag provided.',
     'does_not_exist_or_not_requestable' => 'That Customer does not exist or is not requestable.',
     'customer_deleted_warning'      => 'This customer has been deleted. You will have to restore this customer to edit them or assign them new tickets.',

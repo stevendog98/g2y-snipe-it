@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\customers;
+use App\Http\Controllers\Customers\CustomersController;
 use App\Http\Controllers\Customers\CustomersFilesController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,7 @@ Route::group(['prefix' => 'customers', 'middleware' => ['auth']], function () {
     Route::get(
         'export',
         [
-            Customers\CustomersController::class, 
+            CustomersController::class, 
             'getExportCustomerCsv'
         ]
     )->name('customers.export');
@@ -23,7 +24,7 @@ Route::group(['prefix' => 'customers', 'middleware' => ['auth']], function () {
     Route::post(
         '{customer_id}/restore',
         [
-            Customers\CustomersController::class, 
+            CustomersController::class, 
             'getRestore'
         ]
     )->name('customers.restore.store');
@@ -31,7 +32,7 @@ Route::group(['prefix' => 'customers', 'middleware' => ['auth']], function () {
     Route::get(
         '{customerId}/unsuspend',
         [
-            Customers\CustomersController::class, 
+            CustomersController::class, 
             'getUnsuspend'
         ]
     )->name('unsuspend/customer');
@@ -39,7 +40,7 @@ Route::group(['prefix' => 'customers', 'middleware' => ['auth']], function () {
     Route::post(
         '{customer}/upload',
         [
-            Customers\CustomersFilesController::class, 
+            CustomersFilesController::class, 
             'store'
         ]
     )->name('upload/customer')->withTrashed();
@@ -47,7 +48,7 @@ Route::group(['prefix' => 'customers', 'middleware' => ['auth']], function () {
     Route::delete(
         '{customerId}/deletefile/{fileId}',
         [
-            Customers\CustomersFilesController::class, 
+            CustomersFilesController::class, 
             'destroy'
         ]
     )->name('customerfile.destroy');
@@ -55,7 +56,7 @@ Route::group(['prefix' => 'customers', 'middleware' => ['auth']], function () {
     Route::get(
         '{customer}/showfile/{customerId}',
         [
-            Customers\CustomersFilesController::class, 
+            CustomersFilesController::class, 
             'show'
         ]
     )->name('show/customerfile')->withTrashed();
@@ -64,13 +65,31 @@ Route::group(['prefix' => 'customers', 'middleware' => ['auth']], function () {
     Route::get(
         '{customerId}/print',
         [
-            Customers\CustomersController::class, 
+            CustomersController::class, 
             'printInventory'
         ]
     )->name('customers.print');
 
+    Route::get('audit/due', [CustomersController::class, 'dueForAudit'])
+        ->name('customers.audit.due')
+        ->breadcrumbs(fn (Trail $trail) =>
+        $trail->parent('customers.index')
+            ->push(trans_choice('general.audit_due_days', Setting::getSettings()->audit_warning_days, ['days' => Setting::getSettings()->audit_warning_days]), route('customers.audit.due'))
+        );
+
+    Route::get('audit/{customer}', [CustomersController::class, 'audit'])
+        ->name('customers.audit.create')
+        ->breadcrumbs(fn (Trail $trail, Customer $customer) =>
+        $trail->parent('customers.show', $customer)
+            ->push(trans('general.audit'))
+        );
+
+    Route::post('audit/{customer}',
+        [CustomersController::class, 'auditStore']
+    )->name('customers.audit.store');
+
 });
 
-Route::resource('customers', Customers\CustomersController::class, [
+Route::resource('customers', CustomersController::class, [
     'middleware' => ['auth']
 ])->withTrashed();
