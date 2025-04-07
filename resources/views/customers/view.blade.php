@@ -2,7 +2,7 @@
 
 {{-- Page title --}}
 @section('title')
-{{ trans('admin/users/general.view_user', ['name' => $customer->present()->fullName()]) }}
+{{ trans('admin/customers/general.view_customer', ['name' => $customer->present()->fullName()]) }}
 @parent
 @stop
 
@@ -17,7 +17,7 @@
         <div class="col-md-12">
             <div class="callout callout-warning">
                 <x-icon type="warning" />
-                {{ trans('admin/users/message.user_deleted_warning') }}
+                {{ trans('admin/customers/message.customer_deleted_warning') }}
             </div>
         </div>
     @endif
@@ -35,7 +35,7 @@
             <span class="hidden-lg hidden-md">
                 <x-icon type="info-circle" class="fa-2x" />
             </span>
-            <span class="hidden-xs hidden-sm">{{ trans('admin/users/general.info') }}</span>
+            <span class="hidden-xs hidden-sm">{{ trans('admin/customers/general.info') }}</span>
           </a>
         </li>
 
@@ -124,26 +124,11 @@
             <!-- Start button column -->
             <div class="col-md-3 col-xs-12 col-sm-push-9 info-stack">
 
-              
-
-              <div class="col-md-12 text-center">
-
-                 @if (($customer->isSuperUser()) || ($customer->hasAccess('admin')))
-                      <x-icon type="superadmin" class="fa-2x {{  ($customer->isSuperUser()) ? 'text-danger' : 'text-orange'}}" />
-                        <div class="{{  ($customer->isSuperUser()) ? 'text-danger' : ' text-orange'}}" style="font-weight: bold">{{  ($customer->isSuperUser()) ? strtolower(trans('general.superuser')) : strtolower(trans('general.admin')) }}</div>
-                  @endif
-
-                
-              </div>
-              <div class="col-md-12 text-center">
-                <img src="{{ $customer->present()->gravatar() }}"  class=" img-thumbnail hidden-print" style="margin-bottom: 20px;" alt="{{ $customer->present()->fullName() }}">  
-               </div>
-
               @can('update', $customer)
                 <div class="col-md-12">
-                  <a href="{{ ($customer->deleted_at=='') ? route('users.edit', $customer->id) : '#' }}" style="width: 100%;" class="btn btn-sm btn-warning btn-social hidden-print{{ ($customer->deleted_at!='') ? ' disabled' : '' }}">
+                  <a href="{{ ($customer->deleted_at=='') ? route('customers.edit', $customer->id) : '#' }}" style="width: 100%;" class="btn btn-sm btn-warning btn-social hidden-print{{ ($customer->deleted_at!='') ? ' disabled' : '' }}">
                       <x-icon type="edit" />
-                      {{ trans('admin/users/general.edit') }}
+                      {{ trans('admin/customers/general.edit') }}
                   </a>
                 </div>
               @endcan
@@ -151,14 +136,14 @@
                 @can('view', $customer)
                 <div class="col-md-12" style="padding-top: 5px;">
                 @if($customer->allAssignedCount() != '0') 
-                  <a href="{{ route('users.print', $customer->id) }}" style="width: 100%;" class="btn btn-sm btn-primary btn-social hidden-print" target="_blank" rel="noopener">
+                  <a href="{{ route('customers.print', $customer->id) }}" style="width: 100%;" class="btn btn-sm btn-primary btn-social hidden-print" target="_blank" rel="noopener">
                       <x-icon type="print" />
-                      {{ trans('admin/users/general.print_assigned') }}
+                      {{ trans('admin/customers/general.print_assigned') }}
                   </a>
                   @else
                   <button style="width: 100%;" class="btn btn-sm btn-primary btn-social hidden-print" rel="noopener" disabled title="{{ trans('admin/users/message.user_has_no_assets_assigned') }}">
                       <x-icon type="print" />
-                      {{ trans('admin/users/general.print_assigned') }}</button>
+                      {{ trans('admin/customers/general.print_assigned') }}</button>
                 @endif
                 </div>
                 @endcan
@@ -170,51 +155,21 @@
                       {{ csrf_field() }}
                       <button class="btn-block btn btn-sm btn-primary btn-social hidden-print" rel="noopener">
                           <x-icon type="email" />
-                          {{ trans('admin/users/general.email_assigned') }}
+                          {{ trans('admin/customers/general.email_assigned') }}
                       </button>
                     </form>
                   @elseif(!empty($customer->email) && ($customer->allAssignedCount() == '0'))
-                      <button class="btn btn-block btn-sm btn-primary btn-social hidden-print" rel="noopener" disabled title="{{ trans('admin/users/message.user_has_no_assets_assigned') }}">
+                      <button class="btn btn-block btn-sm btn-primary btn-social hidden-print" rel="noopener" disabled title="{{ trans('admin/customer/message.customer_has_no_assets_assigned') }}">
                           <x-icon type="email" />
-                          {{ trans('admin/users/general.email_assigned') }}
+                          {{ trans('admin/customers/general.email_assigned') }}
                       </button>
                   @else
-                      <button class="btn btn-block btn-sm btn-primary btn-social hidden-print" rel="noopener" disabled title="{{ trans('admin/users/message.user_has_no_email') }}">
+                      <button class="btn btn-block btn-sm btn-primary btn-social hidden-print" rel="noopener" disabled title="{{ trans('admin/customers/message.customer_has_no_email') }}">
                           <x-icon type="email" />
-                          {{ trans('admin/users/general.email_assigned') }}
+                          {{ trans('admin/customers/general.email_assigned') }}
                       </button>
                   @endif
                   </div>
-                @endcan
-
-                @can('update', $customer)
-                  @if (($customer->activated == '1') && ($customer->ldap_import == '0'))
-                  <div class="col-md-12" style="padding-top: 5px;">
-                    @if (($customer->email != '') && ($customer->activated=='1'))
-                      <form action="{{ route('users.password',['userId'=> $customer->id]) }}" method="POST">
-                          {{ csrf_field() }}
-                      <button class="btn btn-block btn-sm btn-primary btn-social hidden-print">
-                          <x-icon type="password" />
-                          {{ trans('button.send_password_link') }}
-                      </button>
-                      </form>
-                    @else
-                      <button class="btn btn-block btn-sm btn-primary btn-social hidden-print" rel="noopener" disabled title="{{ trans('admin/users/message.user_has_no_email') }}">
-                          <x-icon type="email" />
-                          {{ trans('button.send_password_link') }}
-                      </button>
-                    @endif
-                  </div>
-                  @endif
-                @endcan
-
-                @can('create', $customer)
-                    <div class="col-md-12" style="padding-top: 5px;">
-                        <a href="{{ route('users.clone.show', $customer->id) }}" class="btn btn-block btn-sm btn-info btn-social hidden-print">
-                            <x-icon type="clone" />
-                            {{ trans('admin/users/general.clone') }}
-                        </a>
-                    </div>
                 @endcan
 
 
@@ -248,7 +203,7 @@
                     </div>
                   @else
                     <div class="col-md-12" style="padding-top: 5px;">
-                        <form method="POST" action="{{ route('users.restore.store', $customer->id) }}">
+                        <form method="POST" action="{{ route('customers.restore.store', $customer->id) }}">
                             @csrf
                             <button class="btn btn-block btn-sm btn-warning btn-social hidden-print">
                                 <x-icon type="restore" />
@@ -271,7 +226,7 @@
                     <!-- name -->
     
                       <div class="col-md-3">
-                        {{ trans('admin/users/table.name') }}
+                        {{ trans('admin/customers/table.name') }}
                       </div>
                       <div class="col-md-9">
                         {{ $customer->present()->fullName() }}
@@ -301,25 +256,6 @@
                     </div>
                    
                     @endif
-
-                    <!-- username -->
-                    <div class="row">
-
-                      <div class="col-md-3">
-                        {{ trans('admin/users/table.username') }}
-                      </div>
-                      <div class="col-md-9">
-
-                        @if ($customer->isSuperUser())
-                          <span class="label label-danger" data-tooltip="true" title="{{ trans('general.superuser_tooltip') }}"><x-icon type="superadmin" title="{{ trans('general.superuser') }}" /></span>&nbsp;
-                        @elseif ($customer->hasAccess('admin'))
-                          <span class="label label-warning" data-tooltip="true" title="{{ trans('general.admin_tooltip') }}"><x-icon type="superadmin" title="{{ trans('general.admin') }}" /></span>&nbsp;
-                        @endif
-                         {{ $customer->username }}
-
-                      </div>
-
-                    </div>
 
                     <!-- address -->
                     @if (($customer->address) || ($customer->city) || ($customer->state) || ($customer->country))
@@ -542,54 +478,6 @@
                     </div>
                     @endif
 
-                    <!-- vip -->
-                    <div class="row">
-                      <div class="col-md-3">
-                        {{ trans('admin/users/general.vip_label') }}
-                      </div>
-                      <div class="col-md-9">
-                          @if ($customer->vip=='1')
-                              <x-icon type="checkmark" class="fa-fw text-success" />
-                              {{ trans('general.yes') }}
-                          @else
-                              <x-icon type="x" class="fa-fw text-danger" />
-                              {{ trans('general.no') }}
-                          @endif
-                      </div>
-                    </div> 
-                    
-                    <!-- remote -->
-                     <div class="row">
-                      <div class="col-md-3">
-                        {{ trans('admin/users/general.remote') }}
-                      </div>
-                      <div class="col-md-9">
-                          @if ($customer->remote == '1')
-                              <x-icon type="checkmark" class="fa-fw text-success" />
-                              {{ trans('general.yes') }}
-                          @else
-                              <x-icon type="x" class="fa-fw text-danger" />
-                              {{ trans('general.no') }}
-                          @endif
-                      </div>
-                    </div>
-
-                    <!-- login enabled -->
-                    <div class="row">
-                      <div class="col-md-3">
-                        {{ trans('general.login_enabled') }}
-                      </div>
-                      <div class="col-md-9">
-                          @if ($customer->activated == '1')
-                              <x-icon type="checkmark" class="fa-fw text-success" />
-                              {{ trans('general.yes') }}
-                          @else
-                              <x-icon type="x" class="fa-fw text-danger" />
-                              {{ trans('general.no') }}
-                          @endif
-                      </div>
-                    </div>
-
                    <!-- auto assign license -->
                    <div class="row">
                        <div class="col-md-3">
@@ -606,96 +494,12 @@
                        </div>
                    </div>
 
-
-                   <!-- LDAP -->
-                    <div class="row">
-                      <div class="col-md-3">
-                          LDAP
-                      </div>
-                      <div class="col-md-9">
-                          @if ($customer->ldap_import == '1')
-                              <x-icon type="checkmark" class="fa-fw text-success" />
-                              {{ trans('general.yes') }}
-                          @else
-                              <x-icon type="x" class="fa-fw text-danger" />
-                              {{ trans('general.no') }}
-                          @endif
-
-                      </div>
-                    </div>
-
-                    @if ($customer->activated == '1')
-
-                          <!-- 2FA active -->
-                          <div class="row">
-                            <div class="col-md-3">
-                              {{ trans('admin/users/general.two_factor_active') }}
-                            </div>
-                            <div class="col-md-9">
-                                @if ($customer->two_factor_active())
-                                    <x-icon type="checkmark" class="fa-fw text-success" />
-                                    {{ trans('general.yes') }}
-                                @else
-                                    <x-icon type="x" class="fa-fw text-danger" />
-                                    {{ trans('general.no') }}
-                                @endif
-                          
-                            </div>
-                          </div>
-                          
-                          <!-- 2FA enrolled -->
-                          <div class="row two_factor_resetrow">
-                            <div class="col-md-3">
-                              {{ trans('admin/users/general.two_factor_enrolled') }}
-                            </div>
-                            <div class="col-md-9" id="two_factor_reset_toggle">
-                                @if ($customer->two_factor_active_and_enrolled())
-                                <x-icon type="checkmark" class="fa-fw text-success" />
-                                {{ trans('general.yes') }}
-                                @else
-                                    <x-icon type="x" class="fa-fw text-danger" />
-                                    {{ trans('general.no') }}
-                                @endif
-
-                            </div>
-                          </div>
-                          
-                          @if ((Auth::user()->isSuperUser()) && ($customer->two_factor_active_and_enrolled()) && ($snipeSettings->two_factor_enabled!='0') && ($snipeSettings->two_factor_enabled!=''))
-                          
-                            <!-- 2FA reset -->
-                            <div class="row">
-                              <div class="col-md-3">
-
-                              </div>
-                              <div class="col-md-9">
-                                
-                                <a class="btn btn-default btn-sm" id="two_factor_reset" style="margin-right: 10px; margin-top: 10px;">
-                                  {{ trans('admin/settings/general.two_factor_reset') }}
-                                </a>
-                                <span id="two_factor_reseticon">
-                                </span>
-                                <span id="two_factor_resetresult">
-                                </span>
-                                <span id="two_factor_resetstatus">
-                                </span>
-                                <br>
-                                <p class="help-block" style="line-height: 1.6;">
-                                    {{ trans('admin/settings/general.two_factor_reset_help') }}
-                                </p>
-                          
-                                
-                              </div>
-                            </div>
-                            @endif 
-                  @endif
-                    
-
                     @if ($customer->notes)
                      <!-- empty -->
                      <div class="row">
 
                       <div class="col-md-3">
-                        {{ trans('admin/users/table.notes') }}
+                        {{ trans('admin/customers/table.notes') }}
                       </div>
                       <div class="col-md-9">
                           {!! nl2br(Helper::parseEscapedMarkedownInline($customer->notes)) !!}
@@ -703,13 +507,13 @@
 
                     </div>
                     @endif
-                   @if($customer->getUserTotalCost()->total_user_cost > 0)
+                   @if($customer->getCustomerTotalCost()->total_customer_cost > 0)
                    <div class="row">
                        <div class="col-md-3">
-                           {{ trans('admin/users/table.total_assets_cost') }}
+                           {{ trans('admin/customers/table.total_assets_cost') }}
                        </div>
                        <div class="col-md-9">
-                           {{Helper::formatCurrencyOutput($customer->getUserTotalCost()->total_user_cost)}}
+                           {{Helper::formatCurrencyOutput($customer->getCustomerTotalCost()->total_customer_cost)}}
 
                            <a id="optional_info" class="text-primary">
                                <x-icon type="caret-right" id="optional_info_icon" />
@@ -719,9 +523,9 @@
                            <div id="optional_details" class="col-md-12" style="display:none">
                                <div class="col-md-3" style="border-top:none;"></div>
                                <div class="col-md-9" style="border-top:none;">
-                               {{trans('general.assets').': '. Helper::formatCurrencyOutput($customer->getUserTotalCost()->asset_cost)}}<br>
-                               {{trans('general.licenses').': '. Helper::formatCurrencyOutput($customer->getUserTotalCost()->license_cost)}}<br>
-                               {{trans('general.accessories').': '.Helper::formatCurrencyOutput($customer->getUserTotalCost()->accessory_cost)}}<br>
+                               {{trans('general.assets').': '. Helper::formatCurrencyOutput($customer->getCustomerTotalCost()->asset_cost)}}<br>
+                               {{trans('general.licenses').': '. Helper::formatCurrencyOutput($customer->getCustomerTotalCost()->license_cost)}}<br>
+                               {{trans('general.accessories').': '.Helper::formatCurrencyOutput($customer->getCustomerTotalCost()->accessory_cost)}}<br>
                                </div>
                            </div>
                    </div><!--/.row-->
@@ -742,9 +546,9 @@
             <table
                     data-click-to-select="true"
                     data-columns="{{ \App\Presenters\AssetPresenter::dataTableLayout() }}"
-                    data-cookie-id-table="userAssetsListingTable"
+                    data-cookie-id-table="customerAssetsListingTable"
                     data-pagination="true"
-                    data-id-table="userAssetsListingTable"
+                    data-id-table="customerAssetsListingTable"
                     data-search="true"
                     data-side-pagination="server"
                     data-show-columns="true"
@@ -757,9 +561,9 @@
                     data-toolbar="#assetsBulkEditToolbar"
                     data-bulk-button-id="#bulkAssetEditButton"
                     data-bulk-form-id="#assetsBulkForm"
-                    id="userAssetsListingTable"
+                    id="customerAssetsListingTable"
                     class="table table-striped snipe-table"
-                    data-url="{{ route('api.assets.index',['assigned_to' => e($customer->id), 'assigned_type' => 'App\Models\User']) }}"
+                    data-url="{{ route('api.assets.index',['assigned_to' => e($customer->id), 'assigned_type' => 'App\Models\Customer']) }}"
                     data-export-options='{
                 "fileName": "export-{{ str_slug($customer->present()->fullName()) }}-assets-{{ date('Y-m-d') }}",
                 "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","icon"]
@@ -773,9 +577,9 @@
 
           <div class="table-responsive">
             <table
-                    data-cookie-id-table="userLicenseTable"
-                    data-id-table="userLicenseTable"
-                    id="userLicenseTable"
+                    data-cookie-id-table="customerLicenseTable"
+                    data-id-table="customerLicenseTable"
+                    id="customerLicenseTable"
                     data-search="true"
                     data-pagination="true"
                     data-side-pagination="client"
@@ -788,7 +592,7 @@
                     data-sort-name="name"
                     class="table table-striped snipe-table table-hover"
                     data-export-options='{
-                    "fileName": "export-license-{{ str_slug($customer->username) }}-{{ date('Y-m-d') }}",
+                    "fileName": "export-license-{{ str_slug($customer->fullName()) }}-{{ date('Y-m-d') }}",
                     "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","delete","download","icon"]
                     }'>
 
@@ -826,7 +630,7 @@
                   </td>
                   <td class="hidden-print col-md-2">
                     @can('update', $license)
-                      <a href="{{ route('licenses.checkin', $license->pivot->id, ['backto'=>'user']) }}" class="btn btn-primary btn-sm hidden-print">{{ trans('general.checkin') }}</a>
+                      <a href="{{ route('licenses.checkin', $license->pivot->id, ['backto'=>'customer']) }}" class="btn btn-primary btn-sm hidden-print">{{ trans('general.checkin') }}</a>
                      @endcan
                   </td>
                 </tr>
@@ -839,9 +643,9 @@
         <div class="tab-pane" id="accessories">
           <div class="table-responsive">
             <table
-                    data-cookie-id-table="userAccessoryTable"
-                    data-id-table="userAccessoryTable"
-                    id="userAccessoryTable"
+                    data-cookie-id-table="customerAccessoryTable"
+                    data-id-table="customerAccessoryTable"
+                    id="customerAccessoryTable"
                     data-search="true"
                     data-pagination="true"
                     data-side-pagination="client"
@@ -854,7 +658,7 @@
                     data-sort-name="name"
                     class="table table-striped snipe-table table-hover"
                     data-export-options='{
-                    "fileName": "export-accessory-{{ str_slug($customer->username) }}-{{ date('Y-m-d') }}",
+                    "fileName": "export-accessory-{{ str_slug($customer->fullName()) }}-{{ date('Y-m-d') }}",
                     "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","delete","download","icon"]
                     }'>
               <thead>
@@ -890,9 +694,9 @@
         <div class="tab-pane" id="consumables">
           <div class="table-responsive">
             <table
-                    data-cookie-id-table="userConsumableTable"
-                    data-id-table="userConsumableTable"
-                    id="userConsumableTable"
+                    data-cookie-id-table="customerConsumableTable"
+                    data-id-table="customerConsumableTable"
+                    id="customerConsumableTable"
                     data-search="true"
                     data-pagination="true"
                     data-side-pagination="client"
@@ -905,7 +709,7 @@
                     data-sort-name="name"
                     class="table table-striped snipe-table table-hover"
                     data-export-options='{
-                    "fileName": "export-consumable-{{ str_slug($customer->username) }}-{{ date('Y-m-d') }}",
+                    "fileName": "export-consumable-{{ str_slug($customer->fullName()) }}-{{ date('Y-m-d') }}",
                     "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","delete","download","icon"]
                     }'>
               <thead>
@@ -937,9 +741,9 @@
 
             <div class="col-md-12 col-sm-12">
                 <x-filestable
-                        filepath="private_uploads/users/"
-                        showfile_routename="show/userfile"
-                        deletefile_routename="userfile.destroy"
+                        filepath="private_uploads/customers/"
+                        showfile_routename="show/customerfile"
+                        deletefile_routename="customerfile.destroy"
                         :object="$customer" />
             </div>
           </div> <!--/ROW-->
@@ -951,9 +755,9 @@
 
             <table
                     data-click-to-select="true"
-                    data-cookie-id-table="usersHistoryTable"
+                    data-cookie-id-table="customersHistoryTable"
                     data-pagination="true"
-                    data-id-table="usersHistoryTable"
+                    data-id-table="customersHistoryTable"
                     data-search="true"
                     data-side-pagination="server"
                     data-show-columns="true"
@@ -961,9 +765,9 @@
                     data-show-export="true"
                     data-show-refresh="true"
                     data-sort-order="desc"
-                    id="usersHistoryTable"
+                    id="customersHistoryTable"
                     class="table table-striped snipe-table"
-                    data-url="{{ route('api.activity.index', ['target_id' => $customer->id, 'target_type' => 'user']) }}"
+                    data-url="{{ route('api.activity.index', ['target_id' => $customer->id, 'target_type' => 'customer']) }}"
                     data-export-options='{
                 "fileName": "export-{{ str_slug($customer->present()->fullName ) }}-history-{{ date('Y-m-d') }}",
                 "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","icon"]
@@ -1023,45 +827,13 @@
             </table>
 
           </div>
-
-          <div class="tab-pane" id="managed-users">
-
-              @include('partials.users-bulk-actions')
-
-
-              <table
-                      data-columns="{{ \App\Presenters\UserPresenter::dataTableLayout() }}"
-                      data-cookie-id-table="managedUsersTable"
-                      data-click-to-select="true"
-                      data-pagination="true"
-                      data-id-table="managedUsersTable"
-                      data-toolbar="#usersBulkEditToolbar"
-                      data-bulk-button-id="#bulkUserEditButton"
-                      data-bulk-form-id="#usersBulkForm"
-                      data-search="true"
-                      data-side-pagination="server"
-                      data-show-columns="true"
-                      data-show-fullscreen="true"
-                      data-show-export="true"
-                      data-show-refresh="true"
-                      data-sort-order="asc"
-                      id="managedUsersTable"
-                      class="table table-striped snipe-table"
-                      data-url="{{ route('api.users.index', ['manager_id' => $customer->id]) }}"
-                      data-export-options='{
-              "fileName": "export-users-{{ date('Y-m-d') }}",
-              "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","icon"]
-              }'>
-              </table>
-
-          </div>
         </div><!-- /consumables-tab -->
       </div><!-- /.tab-content -->
     </div><!-- nav-tabs-custom -->
   </div>
 
-  @can('update', \App\Models\User::class)
-    @include ('modals.upload-file', ['item_type' => 'user', 'item_id' => $customer->id])
+  @can('update', \App\Models\Customer::class)
+    @include ('modals.upload-file', ['item_type' => 'customer', 'item_id' => $customer->id])
   @endcan
 
 

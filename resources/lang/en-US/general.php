@@ -1,5 +1,5 @@
 <?php
-
+// GENERAL EN-US USAGE TABLE
 return [
     '2FA_reset'             => '2FA reset',
     'accessories'			=> 'Accessories',
@@ -55,6 +55,7 @@ return [
     'byod_help'             => 'This device is owned by the user',
     'bystatus'              => 'by Status',
     'cancel'  				=> 'Cancel',
+    'customer'  				=> 'Customer',
     'categories'			=> 'Categories',
     'category'				=> 'Category',
     'change' 		        => 'In/Out',
@@ -277,6 +278,7 @@ return [
     'select_model'			=> 'Select a Model',
     'select_supplier'		=> 'Select a Supplier',
     'select_user'			=> 'Select a User',
+    'select_customer'		=> 'Select a Customer',
     'select_date'			=> 'Select Date (YYYY-MM-DD)',
     'select_statuslabel'	=> 'Select Status',
     'select_company'    	=> 'Select Company',

@@ -47,10 +47,12 @@ return [
     'vip_label' => 'VIP user',
     'vip_help' => 'This can be helpful to mark important people in your org if you would like to handle them in special ways.',
     'create_user' => 'Create a user',
+    'create_customer' => 'Create a customer',
     'create_user_page_explanation' => 'This is the account information you will use to access the site for the first time.',
     'email_credentials' => 'Email credentials',
     'email_credentials_text' => 'Email my credentials to the email address above',
     'next_save_user' => 'Next: Save User',
+    'next_save_customer' => 'Next: Save Customer',
     'all_assigned_list_generation' => 'Generated on:',
     'email_user_creds_on_create' => 'Email this user their credentials?',
 ];
