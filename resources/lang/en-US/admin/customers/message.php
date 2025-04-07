@@ -2,23 +2,26 @@
 
 return [
 
-    'undeployable' 		 => '<strong>Warning: </strong> This Customer has been marked as currently undeployable. If this status has changed, please update the Customer status.',
+    'undeployable' 		 => '<strong>Warning: </strong> This customer has been marked as currently undeployable. If this status has changed, please update the customer status.',
     'does_not_exist' 	 => 'Customer does not exist.',
     'does_not_exist_var' => 'Customer with tag :Customer_tag not found.',
     'no_tag' 	         => 'No Customer tag provided.',
     'does_not_exist_or_not_requestable' => 'That Customer does not exist or is not requestable.',
-    'assoc_users'	 	 => 'This Customer is currently checked out to a user and cannot be deleted. Please check the Customer in first, and then try deleting again. ',
+    'customer_deleted_warning'      => 'This customer has been deleted. You will have to restore this customer to edit them or assign them new tickets.',
+    'assoc_customers'	 	 => 'This Customer is currently checked out to a user and cannot be deleted. Please check the Customer in first, and then try deleting again. ',
     'warning_audit_date_mismatch' 	=> 'This Customer\'s next audit date (:next_audit_date) is before the last audit date (:last_audit_date). Please update the next audit date.',
     'labels_generated'   => 'Labels were successfully generated.',
     'error_generating_labels' => 'Error while generating labels.',
-    'no_Customers_selected' => 'No Customers selected.',
+    'no_customers_selected' => 'No Customers selected.',
+    'customer_has_no_email'         => 'This customer does not have an email address in their profile.',
+    'customer_has_no_assets_assigned' => 'No assets currently assigned to customer.',
 
     'create' => [
         'error'   		=> 'Customer was not created, please try again. :(',
         'success' 		=> 'Customer created successfully. :)',
         'success_linked' => 'Customer with tag :tag was created successfully. <strong><a href=":link" style="color: white;">Click here to view</a></strong>.',
         'multi_success_linked' => 'Customer with tag :links was created successfully.|:count Customers were created succesfully. :links.',
-        'partial_failure' => 'An Customer was unable to be created. Reason: :failures|:count Customers were unable to be created. Reasons: :failures',
+        'partial_failure' => 'An customer was unable to be created. Reason: :failures|:count Customers were unable to be created. Reasons: :failures',
     ],
 
     'update' => [
@@ -26,15 +29,15 @@ return [
         'success' 			=> 'Customer updated successfully.',
         'encrypted_warning' => 'Customer updated successfully, but encrypted custom fields were not due to permissions',
         'nothing_updated'	=>  'No fields were selected, so nothing was updated.',
-        'no_Customers_selected'  =>  'No Customers were selected, so nothing was updated.',
-        'Customers_do_not_exist_or_are_invalid' => 'Selected Customers cannot be updated.',
+        'no_Customers_selected'  =>  'No customers were selected, so nothing was updated.',
+        'customers_do_not_exist_or_are_invalid' => 'Selected customers cannot be updated.',
     ],
 
     'restore' => [
         'error'   		=> 'Customer was not restored, please try again',
         'success' 		=> 'Customer restored successfully.',
         'bulk_success' 		=> 'Customer restored successfully.',
-        'nothing_updated'   => 'No Customers were selected, so nothing was restored.', 
+        'nothing_updated'   => 'No customers were selected, so nothing was restored.', 
     ],
 
     'audit' => [
@@ -73,17 +76,17 @@ return [
     'delete' => [
         'confirm'   	=> 'Are you sure you wish to delete this Customer?',
         'error'   		=> 'There was an issue deleting the Customer. Please try again.',
-        'assigned_to_error' => '{1}Customer Tag: :Customer_tag is currently checked out. Check in this device before deletion.|[2,*]Customer Tags: :Customer_tag are currently checked out. Check in these devices before deletion.',
-        'nothing_updated'   => 'No Customers were selected, so nothing was deleted.',
-        'success' 		=> 'The Customer was deleted successfully.',
+        'assigned_to_error' => '{1}customer Tag: :customer_tag is currently checked out. Check in this device before deletion.|[2,*]Customer Tags: :customer_tag are currently checked out. Check in these devices before deletion.',
+        'nothing_updated'   => 'No customers were selected, so nothing was deleted.',
+        'success' 		=> 'The customer was deleted successfully.',
     ],
 
     'checkout' => [
         'error'   		=> 'Customer was not checked out, please try again',
         'success' 		=> 'Customer checked out successfully.',
-        'user_does_not_exist' => 'That user is invalid. Please try again.',
-        'not_available' => 'That Customer is not available for checkout!',
-        'no_Customers_selected' => 'You must select at least one Customer from the list',
+        'user_does_not_exist' => 'That customer is invalid. Please try again.',
+        'not_available' => 'That customer is not available for checkout!',
+        'no_customers_selected' => 'You must select at least one customer from the list',
     ],
 
     'multi-checkout' => [
@@ -94,8 +97,8 @@ return [
     'checkin' => [
         'error'   		=> 'Customer was not checked in, please try again',
         'success' 		=> 'Customer checked in successfully.',
-        'user_does_not_exist' => 'That user is invalid. Please try again.',
-        'already_checked_in'  => 'That Customer is already checked in.',
+        'customer_does_not_exist' => 'That customer is invalid. Please try again.',
+        'already_checked_in'  => 'That customer is already checked in.',
 
     ],
 

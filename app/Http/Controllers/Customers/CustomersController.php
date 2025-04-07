@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Assets;
+namespace App\Http\Controllers\Customers;
 
 use App\Events\CheckoutableCheckedIn;
 use App\Helpers\Helper;
@@ -9,7 +9,7 @@ use App\Http\Requests\ImageUploadRequest;
 use App\Models\Actionlog;
 use App\Http\Requests\UploadFileRequest;
 use Illuminate\Support\Facades\Log;
-use App\Models\Asset;
+use App\Models\Customer;
 use App\Models\AssetModel;
 use App\Models\CheckoutRequest;
 use App\Models\Company;
@@ -39,7 +39,7 @@ use TypeError;
  * @version    v1.0
  * @author [S. Williams] [<swilliams@geeks2you.com>]
  */
-class CustomerssController extends Controller
+class CustomersController extends Controller
 {
     protected $qrCodeDimensions = ['height' => 3.5, 'width' => 3.5];
     protected $barCodeDimensions = ['height' => 2, 'width' => 22];

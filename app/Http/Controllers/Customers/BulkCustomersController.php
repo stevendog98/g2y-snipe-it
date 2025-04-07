@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\Customers;
 
 use App\Events\UserMerged;
 use App\Helpers\Helper;
@@ -24,12 +24,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Log;
 
-class BulkUsersController extends Controller
+class BulkCustomersController extends Controller
 {
     /**
-     * Returns a view that confirms the user's a bulk action will be applied to.
+     * Returns a view that confirms the customers's a bulk action will be applied to.
      *
-     * @author [A. Gianotto] [<snipe@snipe.net>]
+     * @author [S. Williams] [<swilliams@geeks2you.com>]
      * @since [v1.7]
      * @param Request $request
      * @return \Illuminate\Contracts\View\View | \Illuminate\Http\RedirectResponse

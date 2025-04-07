@@ -62,12 +62,12 @@ Route::group(['prefix' => 'customers', 'middleware' => ['auth']], function () {
 
 
     Route::get(
-        '{userId}/print',
+        '{customerId}/print',
         [
-            Users\UsersController::class, 
+            Customers\CustomersController::class, 
             'printInventory'
         ]
-    )->name('users.print');
+    )->name('customers.print');
 
 });
 
