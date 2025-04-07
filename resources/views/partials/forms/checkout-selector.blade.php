@@ -17,6 +17,11 @@
                 <input name="checkout_to_type" value="location" aria-label="checkout_to_type" class="active" type="radio"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> {{ trans('general.location') }}
             </label>
             @endif
+            @if ((isset($customer_select)) && ($customer_select!='false'))
+            <label class="btn btn-default">
+                <input name="checkout_to_type" value="customer" aria-label="checkout_to_type" type="radio"><x-icon type="user" /> {{ trans('general.customer') }}
+            </label>
+            @endif
 
             {!! $errors->first('checkout_to_type', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
         </div>

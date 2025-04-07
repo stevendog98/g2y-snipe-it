@@ -1,0 +1,30 @@
+Reimplement the User class as a "Customer" class
+
+Strip LDAP control and login from customers, they are status for issuing assets and consumables.
+
+I need to reimplement the:
+Route
+Partial
+Factory
+Views
+Bulk Features
+
+customer-select.blade.php; FULLY IMPLEMENTED : UNTESTED
+Customer.php; Believe Done, Can Add More Info
+
+API Read/Write Access for customers
+
+User permissions can be all but NIL
+LOCATION is set to their service point, Tucson or Phoenix
+
+fields that can be removed:
+username
+password
+
+
+new fields needed:
+customer ID pulled from syncro
+
+
+Customer.PHP
+Cannot be checked out, always false on status.
